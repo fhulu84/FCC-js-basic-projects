@@ -38,8 +38,6 @@ const reviews = [
   },
 ];
 
-let currentReview = 0;
-
 // review items
 const img = document.getElementById('person-img');
 const author = document.getElementById('author');
@@ -52,13 +50,21 @@ const prevNextBtns = document.querySelector('.button-container');
 // random review btn
 const randomBtn = document.querySelector('.random-btn');
 
+// current review is first in the list
+let currentReview = 0;
+
 const displayReview = () => {
-  img.src = reviews[currentReview]['img'];
-  author.innerText = reviews[currentReview]['name'];
-  job.innerText = reviews[currentReview]['job'];
-  info.innerText = reviews[currentReview]['text'];
+  const item = reviews[currentReview];
+  img.src = item.img;
+  author.textContent = item.name;
+  job.textContent = item.job;
+  info.textContent = item.text;
 }
 
+// load init
+window.addEventListener('DOMContentLoaded', displayReview);
+
+// display reviews in order
 prevNextBtns.addEventListener('click', function(event) {
   if(event.target.tagName === "I"){
     if(event.target.className.includes('left')){ 
@@ -72,6 +78,7 @@ prevNextBtns.addEventListener('click', function(event) {
   }
 })
 
+// display random review
 randomBtn.addEventListener('click', function() {
   currentReview = Math.floor(Math.random() * reviews.length);
   displayReview();
