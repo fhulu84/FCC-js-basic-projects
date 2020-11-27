@@ -38,29 +38,41 @@ const reviews = [
   },
 ];
 
-let revOrder = 0;
+let currentReview = 0;
+
+// review items
+const img = document.getElementById('person-img');
+const author = document.getElementById('author');
+const job = document.getElementById('job');
+const info = document.getElementById('info');
+
+// prev-next buttons container
+const prevNextBtns = document.querySelector('.button-container');
+
+// random review btn
+const randomBtn = document.querySelector('.random-btn');
 
 const displayReview = () => {
-  document.getElementById('person-img').src = reviews[revOrder]['img'];
-  document.getElementById('author').innerText = reviews[revOrder]['name'];
-  document.getElementById('job').innerText = reviews[revOrder]['job'];
-  document.getElementById('info').innerText = reviews[revOrder]['text'];
+  img.src = reviews[currentReview]['img'];
+  author.innerText = reviews[currentReview]['name'];
+  job.innerText = reviews[currentReview]['job'];
+  info.innerText = reviews[currentReview]['text'];
 }
 
-document.querySelector('.button-container').addEventListener('click', function(event) {
+prevNextBtns.addEventListener('click', function(event) {
   if(event.target.tagName === "I"){
     if(event.target.className.includes('left')){ 
-      revOrder = revOrder ? --revOrder
-                            : revOrder = reviews.length - 1;
+      currentReview = currentReview ? --currentReview
+                            : currentReview = reviews.length - 1;
     } else if(event.target.className.includes('right')){
-      revOrder = revOrder < reviews.length - 1 ? ++revOrder
-                                                 : revOrder = 0;
+      currentReview = currentReview < reviews.length - 1 ? ++currentReview
+                                                 : currentReview = 0;
     }
     displayReview();
   }
 })
 
-document.querySelector('.random-btn').addEventListener('click', function() {
-  revOrder = Math.floor(Math.random() * reviews.length);
+randomBtn.addEventListener('click', function() {
+  currentReview = Math.floor(Math.random() * reviews.length);
   displayReview();
 })
