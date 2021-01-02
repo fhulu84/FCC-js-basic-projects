@@ -83,21 +83,34 @@ const menu = [
 ];
 
 const sectionCenter = document.querySelector('.section-center');
-const filterBtns = document.querySelectorAll('.filter-btn');
+// const filterBtns = document.querySelectorAll('.filter-btn');
+const btnContainer = document.querySelector('.btn-container');
 
 // load items
 window.addEventListener('DOMContentLoaded', function() {
   displayMenuItems(menu);
+
+  // create filter btns
+  displayFilterBtns();
 })
 
-// filter items
-filterBtns.forEach(btn => {
-  btn.addEventListener('click', function(e) {
-    const category = e.currentTarget.dataset.id;
-    category === 'all' ? displayMenuItems(menu) 
-                       : displayMenuItems(menu.filter(item => item.category === category));
+function displayFilterBtns() {
+  const categories = ['all'].concat([...new Set(menu.map(item => item.category))]);
+  const btns = categories.map((category) => {
+    return `<button class="filter-btn" type="button" data-id="${category}">${category}</button>`;
+  }).join('');
+  btnContainer.innerHTML = btns;
+  // const filterBtns = btnContainer.childNodes;
+  const filterBtns = btnContainer.querySelectorAll('.filter-btn');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      const category = e.currentTarget.dataset.id;
+      category === 'all' ? displayMenuItems(menu) 
+                         : displayMenuItems(menu.filter(item => item.category === category));
+    })
   })
-})
+}
+
 
 function displayMenuItems(menuItems) {
   let displayMenu = menuItems.map(item => {
