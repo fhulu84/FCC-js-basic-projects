@@ -56,3 +56,35 @@ window.addEventListener('scroll', function(){
 
 // ********** smooth scroll ************
 // select links
+const scrollLinks = document.querySelectorAll('.scroll-link');
+
+scrollLinks.forEach(function(link){
+  link.addEventListener('click', function(e){
+    // we want to add more functionality to the existing done by css smooth scroll
+    // prevent default
+    e.preventDefault();
+    // navigate to specific spot, section, skip the hash in the beginning
+    const id = e.currentTarget.getAttribute('href').slice(1);
+    const element = document.getElementById(id);
+    // calculate the heights
+    const navHeight = navbar.getBoundingClientRect().height;
+    const containerHeight = linksContainer.getBoundingClientRect().height;
+    const fixedNav = navbar.classList.contains('fixed-nav');
+    let position = element.offsetTop - navHeight;
+    //if navbar is static, not fixed, decrease more
+    if(!fixedNav){
+      position = position - navHeight;
+    }
+    // for smaller screens, otherwise it acts the opening menu hasnt been closed after selection, 82 height of navbar
+    if(navHeight > 82){
+      position = position + containerHeight;
+    }
+    console.log(position);
+    window.scrollTo({
+      left: 0, 
+      top: position,
+    });
+    // hide links on smaller screen
+    linksContainer.style.height = 0;
+  })
+})
