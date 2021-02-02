@@ -10,11 +10,13 @@ const clearBtn = document.querySelector('.clear-btn');
 // edit option
 let editElement;
 let editFlag = false; // false by default, we gonna edit only if the edit btn clicked
-let editId = "";
+let editID = "";
 
 // ****** EVENT LISTENERS **********
 // submit form
 form.addEventListener('submit', addItem);
+// clear items
+clearBtn.addEventListener('click', clearItems);
 // ****** FUNCTIONS **********
 function addItem(e){
   e.preventDefault();
@@ -45,6 +47,8 @@ function addItem(e){
     container.classList.add('show-container');
     // add to local storage
     addToLocalStorage(id, value);
+    // setBacktoDefault
+    setBacktoDefault();
   }
   else if(value && editFlag){
     console.log('editing');
@@ -65,7 +69,31 @@ function displayAlert(text, action){
     alert.classList.remove(`alert-${action}`);
   }, 1000);
 }
+// clear items
+function clearItems(){
+  const items = document.querySelectorAll('.grocery-item');
+  if(items.length > 0){
+    items.forEach(item => {
+      list.removeChild(item);
+    });
+  }
+  container.classList.remove('show-container');
+  displayAlert('empty list', 'danger');
+  setBacktoDefault();
+  // localStorage.removeItem('list');
+}
+
+// set back to default
+function setBacktoDefault(){
+  grocery.value = "";
+  editFlag = false;
+  editID = "";
+  submitBtn.textContent = "submit";
+}
 
 // ****** LOCAL STORAGE **********
+function addToLocalStorage(id, value){
+  console.log('added to local storage')
+}
 
 // ****** SETUP ITEMS **********
