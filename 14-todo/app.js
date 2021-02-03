@@ -2,7 +2,7 @@
 const alert = document.querySelector('.alert');
 const form = document.querySelector('.grocery-form');
 const grocery = document.getElementById('grocery');
-const submit = document.querySelector('submit-btn');
+const submitBtn = document.querySelector('.submit-btn');
 const container = document.querySelector('.grocery-container');
 const list = document.querySelector('.grocery-list');
 const clearBtn = document.querySelector('.clear-btn');
@@ -17,6 +17,8 @@ let editID = "";
 form.addEventListener('submit', addItem);
 // clear items
 clearBtn.addEventListener('click', clearItems);
+
+
 // ****** FUNCTIONS **********
 function addItem(e){
   e.preventDefault();
@@ -39,6 +41,12 @@ function addItem(e){
                             <i class="fas fa-trash"></i>
                           </button>
                         </div>`;
+    // delete item
+    const deleteBtn = element.querySelector('.delete-btn');
+    deleteBtn.addEventListener('click', deleteItem);
+    // edit item
+    const editBtn = element.querySelector('.edit-btn');
+    editBtn.addEventListener('click', editItem);
     // append child
     list.appendChild(element);
     // display alert
@@ -83,6 +91,26 @@ function clearItems(){
   // localStorage.removeItem('list');
 }
 
+// delete item
+function deleteItem(e){
+  // currentTarget, in order to access btn not fontawsome icon
+  const element = e.currentTarget.parentElement.parentElement;
+  const id = element.dataset.id;
+  list.removeChild(element);
+  if(list.children.length === 0){
+    container.classList.remove('show-container');
+  }
+  displayAlert('item removed', 'danger');
+  setBacktoDefault();
+  // remove from local storage
+  // removeFromLocalStrorage(id);
+}
+
+// edit item
+function editItem(){
+  console.log('edit item');
+}
+
 // set back to default
 function setBacktoDefault(){
   grocery.value = "";
@@ -94,6 +122,9 @@ function setBacktoDefault(){
 // ****** LOCAL STORAGE **********
 function addToLocalStorage(id, value){
   console.log('added to local storage')
+}
+function removeFromLocalStrorage(id) {
+
 }
 
 // ****** SETUP ITEMS **********
